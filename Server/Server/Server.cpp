@@ -8,7 +8,7 @@ void main()
 {
 	// Initilize winsock
 	WSADATA WsData;
-	WORD ver = MAKEWORD(1, 0);
+	WORD ver = MAKEWORD(2, 2);
 	int wsOk = WSAStartup(ver, &WsData);
 
 	if (wsOk != 0) {
