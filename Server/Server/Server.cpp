@@ -1,8 +1,21 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <WS2tcpip.h>
 #pragma comment (lib, "ws2_32.lib")
-#define SERVER_PORT 54000
+#define SERVER_PORT 8645
 using namespace std;
+
+// Utility Functions
+void loadFile(string fname, fstream& file)
+{
+	file.open(fname.c_str());
+	if (file.fail())
+	{
+		cout << "Cannot open file " << fname << endl;
+	}
+}
+
 
 void main()
 {
