@@ -2,7 +2,7 @@
 #include <string>
 #include <WS2tcpip.h>
 #pragma comment(lib, "WS2_32.lib")
-#define SERVER_PORT 54000
+#define SERVER_PORT 8645
 
 using namespace std;
 
