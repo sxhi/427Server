@@ -1,8 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <WS2tcpip.h>
-#pragma comment (lib, "ws2_32.lib")
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+// #include <WS2tcpip.h>
+// #pragma comment (lib, "ws2_32.lib")
 #define SERVER_PORT 8645
 using namespace std;
 
@@ -20,7 +25,8 @@ void loadFile(string fname, fstream& file)
 void main()
 {
 	// Initilize winsock
-	WSADATA WsData;
+	
+	/* WSADATA WsData;
 	WORD ver = MAKEWORD(2, 2);
 	int wsOk = WSAStartup(ver, &WsData);
 
@@ -28,8 +34,14 @@ void main()
 		cerr << "Cant initialize winsock!" << endl;
 		return;
 	}
+	*/
+
+
 
 	// Create a socket
+	struct sockaddr_in sin;
+
+	bzero((char * )
 	SOCKET listening = socket(AF_INET, SOCK_STREAM, 0);
 	if (listening == INVALID_SOCKET) {
 		cerr << "Cant create a socket!" << endl;
