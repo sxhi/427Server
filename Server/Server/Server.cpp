@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <vector>
 // #include <WS2tcpip.h>
 // #pragma comment (lib, "ws2_32.lib")
 #define SERVER_PORT 8645
@@ -21,6 +22,37 @@ void loadFile(string fname, fstream& file)
 	}
 }
 
+struct Employee {
+	int id;
+	string FirstName;
+	string LastName;
+	string PhoneNum;
+};
+
+struct List {
+
+	struct Employee EmployeeList[100];
+	int m_size;
+};
+
+void add(List *n) 
+{
+	cout << "Please enter the employee name";
+
+
+}
+
+int delete (List* n)
+{
+
+};
+
+void list(List* n)
+{
+	for (int i = 0; i < sizeof(list); i++) {
+		cout << n.id[i] << "\t\t" << n.FirstName[i] << "\t\t" << n.LastName[i] << "\t\t" << n.PhoneNum[i] << "\t\t" << endl;
+	}
+}
 
 void main()
 {
