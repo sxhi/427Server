@@ -73,8 +73,6 @@ void main()
 	char buf[BUFFER]; //Buffer / Message
 	fstream file; // Output File
 	ifstream save; // Inputing output file
-	string first, second, third, fourth, total, space = " "; // Each Word
-	stringstream in; // streaming string
 	int idnum = 0; // Id#
 	bool loop_control = true; // Loop Controller
 
@@ -92,14 +90,17 @@ void main()
 			cout << "Client Disconnected" << endl;
 			break;
 		}
+
+		string first, second, third, fourth, fifth, total, space = " "; // Each Word
+		stringstream in; // streaming string
 		string clientIn = string(buf, 0, bytesReceived);
 		in.str(clientIn);
-		in >> first >> second >> third >> fourth;
+		in >> first >> second >> third >> fourth >> fifth;
 
 		// Add Function
 			if (first == "add") {
 				file.open("output.txt");
-				file << idnum << space << second << space << third << space << fourth << endl;
+				file << idnum << space << second << space << third << space << fourth << space << fifth << endl;
 				idnum++;
 				send(clientSocket, "200 OK", 7, 0);
 				file.close();
