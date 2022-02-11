@@ -1,5 +1,7 @@
 #include <iostream>
+#include <Winsock2.h>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <stdio.h>
 #include <sys/types.h>
@@ -7,7 +9,9 @@
 #include <WS2tcpip.h>
 #pragma comment (lib, "ws2_32.lib")
 #define SERVER_PORT 8645
+#define BUFFER 4096
 using namespace std;
+
 
 // Utility Functions
 void loadFile(string fname, fstream& file)
@@ -34,7 +38,6 @@ struct List {
 
 void add(List *n) 
 {
-	cout << "Please enter the employee name";
 
 
 }
@@ -56,7 +59,6 @@ void list(List* n)
 void main()
 {
 	// Initilize winsock
-	
     WSADATA WsData;
 	WORD ver = MAKEWORD(2, 2);
 	int wsOk = WSAStartup(ver, &WsData);
@@ -112,13 +114,15 @@ void main()
 	closesocket(listening);
 
 	// While loop: accept and echo message back to client
-	char buf[4096];
+	char buf[BUFFER];
+	FILE output;
+	string first, seocnd, third, fourth, full;
 
 	while (true) {
-		ZeroMemory(buf, 4096);
+		ZeroMemory(buf, BUFFER);
 
 		// Wait for client to send data
-		int bytesReceived = recv(clientSocket, buf, 4096, 0);
+		int bytesReceived = recv(clientSocket, buf, BUFFER, 0);
 		if (bytesReceived == SOCKET_ERROR) {
 			cerr << "Error in recv()" << endl;
 			break;

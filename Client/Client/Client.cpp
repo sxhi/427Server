@@ -3,12 +3,13 @@
 #include <WS2tcpip.h>
 #pragma comment(lib, "WS2_32.lib")
 #define SERVER_PORT 8645
+#define BUFFER 4096
 
 using namespace std;
 
 void main() {
 
-	string ipAddress = "127.0.0.1" // Ip address of server
+	string ipAddress = "127.0.0.1"; // Ip address of server
 	int port = SERVER_PORT;
 
 	// Initialize winsock
@@ -44,7 +45,7 @@ void main() {
 	}
 
 	// Do While loop to send and recieve data
-	char buf[4096];
+	char buf[BUFFER];
 	string userInput;
 
 	do {
@@ -58,8 +59,8 @@ void main() {
 			if (sendResult != SOCKET_ERROR) {
 
 				// Wait for response
-				ZeroMemory(buf, 4096);
-				int bytesReceived = recv(sock, buf, 4096, 0);
+				ZeroMemory(buf, BUFFER);
+				int bytesReceived = recv(sock, buf, BUFFER, 0);
 				if (bytesReceived > 0) {
 					// Echo response to console
 					cout << "SERVER> " << string(buf, 0, bytesReceived) << endl;
