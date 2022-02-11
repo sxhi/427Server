@@ -92,8 +92,8 @@ void main()
 			break;
 		}
 
-		string first, second, third, fourth, fifth, total, space = " "; // Each Word
-		stringstream in; // streaming string
+		string first, second, third, fourth, fifth, total, fixed, newSecond, space = " "; // Each Word
+		stringstream in, out; // Streaming String
 		string clientIn = string(buf, 0, bytesReceived);
 		in.str(clientIn);
 		in >> first >> second >> third >> fourth >> fifth;
@@ -109,8 +109,23 @@ void main()
 
 		// Delete Function
 			else if (first == "delete") {
-			
-			send(clientSocket, "200 OK", 7, 0);
+
+				int idcompare = stoi(second); // Create integer out of string
+				temp.open("temp.txt"); // Open a temp file
+				file.open("output.txt"); // Open the writing file
+				while (getline(file, fixed)) {
+					out.str(fixed);
+					out >> newSecond;
+					if (newSecond != second) {
+						temp << fixed << endl;
+					}
+				}
+				file.close();
+				temp.close();
+				remove("output.txt");
+				rename("temp.txt", "output.txt");
+				cout << "200 OK " << endl;
+				send(clientSocket, "200 OK", 7, 0);
 			}
 
 		// List Function
