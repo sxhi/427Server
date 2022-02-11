@@ -80,7 +80,7 @@ void main()
 
 	// While loop: accept and echo message back to client / Functions
 	while (loop_control) {
-		// ZeroMemory(buf, BUFFER);
+		ZeroMemory(buf, BUFFER);
 
 		// Wait for client to send data
 		int bytesReceived = recv(clientSocket, buf, BUFFER, 0);
