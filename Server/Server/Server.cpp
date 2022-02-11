@@ -109,7 +109,6 @@ void main()
 
 		// Delete Function
 			else if (first == "delete") {
-
 				int idcompare = stoi(second); // Create integer out of string
 				temp.open("temp.txt"); // Open a temp file
 				file.open("output.txt"); // Open the writing file
