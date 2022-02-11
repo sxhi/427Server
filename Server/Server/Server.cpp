@@ -72,6 +72,7 @@ void main()
 
 	char buf[BUFFER]; //Buffer / Message
 	fstream file; // Output File
+	ofstream temp; // Temp output file
 	ifstream save; // Inputing output file
 	int idnum = 0; // Id#
 	bool loop_control = true; // Loop Controller
@@ -99,7 +100,7 @@ void main()
 
 		// Add Function
 			if (first == "add") {
-				file.open("output.txt");
+				file.open("output.txt", std::ios_base::app);
 				file << idnum << space << second << space << third << space << fourth << space << fifth << endl;
 				idnum++;
 				send(clientSocket, "200 OK", 7, 0);
@@ -108,7 +109,7 @@ void main()
 
 		// Delete Function
 			else if (first == "delete") {
-			cout << "Shut up" << endl;
+			
 			send(clientSocket, "200 OK", 7, 0);
 			}
 
