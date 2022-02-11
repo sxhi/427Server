@@ -3,9 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <stdio.h>
-#include <sys/types.h>
-#include <vector>
+#include <cstring>
 #include <WS2tcpip.h>
 #pragma comment (lib, "ws2_32.lib")
 #define SERVER_PORT 8645
@@ -27,12 +25,12 @@ void main()
 
 	// Create a socket
 	struct sockaddr_in sin;
-
 	SOCKET listening = socket(AF_INET, SOCK_STREAM, 0);
 	if (listening == INVALID_SOCKET) {
 		cerr << "Cant create a socket!" << endl;
 		return;
 	}
+
 	// Bind socket to ip and port
 	sockaddr_in hint;
 	hint.sin_family = AF_INET;
@@ -70,15 +68,17 @@ void main()
 	// Close listening socket
 	closesocket(listening);
 
-	// While loop: accept and echo message back to client
-	char buf[BUFFER];
+	// Variable Declarations
+
+	char buf[BUFFER]; //Buffer / Message
 	fstream file; // Output File
 	ifstream save; // Inputing output file
-	string first, second, third, fourth, total, space = " ";
-	stringstream in, back;
-	int idnum = 1;
-	bool loop_control = true;
+	string first, second, third, fourth, total, space = " "; // Each Word
+	stringstream in; // streaming string
+	int idnum = 1; // Id#
+	bool loop_control = true; // Loop Controller
 
+	// While loop: accept and echo message back to client / Functions
 	while (loop_control) {
 		ZeroMemory(buf, BUFFER);
 
@@ -96,6 +96,7 @@ void main()
 		in.str(clientIn);
 		in >> first >> second >> third >> fourth;
 
+		// Add Function
 			if (first == "add") {
 				file.open("output.txt");
 				file << idnum << space << second << space << third << space << fourth << endl;
@@ -103,10 +104,14 @@ void main()
 				send(clientSocket, "200 OK", 7, 0);
 				file.close();
 			}
+
+		// Delete Function
 			else if (first == "delete") {
 			cout << "Shut up" << endl;
 			send(clientSocket, "200 OK", 7, 0);
 			}
+
+		// List Function
 			else if (first == "list") {
 				string line;
 				while (in >> first >> second >> third >> fourth) {
@@ -120,6 +125,8 @@ void main()
 					save.close();
 				}
 			}
+
+		// Shutdown Function
 			else if (first == "shutdown") {
 				loop_control = false;
 				return;
@@ -131,6 +138,7 @@ void main()
 		// send(clientSocket, buf, bytesReceived + 1, 0);
 
 	}
+
 	// Close the socket
 	closesocket(clientSocket);
 
