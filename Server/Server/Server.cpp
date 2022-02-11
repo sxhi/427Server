@@ -10,51 +10,8 @@
 #pragma comment (lib, "ws2_32.lib")
 #define SERVER_PORT 8645
 #define BUFFER 4096
+
 using namespace std;
-
-
-// Utility Functions
-void loadFile(string fname, fstream& file)
-{
-	file.open(fname.c_str());
-	if (file.fail())
-	{
-		cout << "Cannot open file " << fname << endl;
-	}
-}
-
-struct Employee {
-	int id;
-	string FirstName;
-	string LastName;
-	string PhoneNum;
-};
-
-struct List {
-
-	Employee EmployeeList[100];
-	int m_size = sizeof(EmployeeList);
-};
-
-void add(List *n) 
-{
-
-
-}
-
-void remove (List* n)
-{
-
-};
-
-void list(List* n)
-{
-	int countr = 0;
-	countr = sizeof(n->EmployeeList);
-	for (int i = 0; i < countr; i++) {
-		cout << n->EmployeeList[i].id << "\t\t" << n->EmployeeList[i].FirstName << "\t\t" << n->EmployeeList[i].LastName << "\t\t" << n->EmployeeList[i].PhoneNum << "\t\t" << endl;
-	}
-}
 
 void main()
 {
@@ -115,10 +72,10 @@ void main()
 
 	// While loop: accept and echo message back to client
 	char buf[BUFFER];
-	FILE output;
-	string first, second, third, fourth, fifth, full, space = "   ";
-	stringstream in, out, back;
-	List eList;
+	fstream file; // Output File
+	ifstream save; // Inputing output file
+	string first, second, third, fourth, total, space = " ";
+	stringstream in, back;
 	int idnum = 1;
 	bool loop_control = true;
 
@@ -137,30 +94,42 @@ void main()
 		}
 		string clientIn = string(buf, 0, bytesReceived);
 		in.str(clientIn);
-		in >> first >> second >> third >> fourth >> fifth;
-		if (first == "add") {
-			cout << "200 OK" << endl;
-			eList.EmployeeList->id = idnum;
-			eList.EmployeeList->FirstName = second;
-			eList.EmployeeList->LastName = third;
-			eList.EmployeeList->PhoneNum = fourth;
-		}
-		else if (first == "delete") {
-		
-		}
-		else if (first == "list") {
+		in >> first >> second >> third >> fourth;
 
-		}
-		else if (first == "shutdown") {
-			loop_control = false;
-			return; 
-		}
-		else if (first == "quit") {
-			loop_control = false;
-			return;
-		}
+			if (first == "add") {
+				file.open("output.txt");
+				file << idnum << space << second << space << third << space << fourth << endl;
+				idnum++;
+				send(clientSocket, "200 OK", 7, 0);
+				file.close();
+			}
+			else if (first == "delete") {
+			cout << "Shut up" << endl;
+			send(clientSocket, "200 OK", 7, 0);
+			}
+			else if (first == "list") {
+				string line;
+				while (in >> first >> second >> third >> fourth) {
+					total = second + space + third + space + fourth;
+
+					save.open("output.txt");
+					while (!save.eof()) {
+						getline(save, line);
+						cout << line << endl;
+					}
+					save.close();
+				}
+			}
+			else if (first == "shutdown") {
+				loop_control = false;
+				return;
+			}
+			else {
+				return;
+			}
 		cout << string(buf, 0, bytesReceived) << endl;
-		send(clientSocket, buf, bytesReceived + 1, 0);
+		// send(clientSocket, buf, bytesReceived + 1, 0);
+
 	}
 	// Close the socket
 	closesocket(clientSocket);
