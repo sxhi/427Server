@@ -74,7 +74,7 @@ void main()
 	fstream file; // Output File
 	ofstream temp; // Temp output file
 	ifstream save; // Inputing output file
-	int idnum = 0; // Id#
+	int idnum = 1; // Id#
 	bool loop_control = true; // Loop Controller
 
 	// While loop: accept and echo message back to client / Functions
@@ -130,6 +130,8 @@ void main()
 		// List Function
 			else if (first == "list") {
 				string line;
+				file.open("output.txt");
+
 				while (in >> first >> second >> third >> fourth) {
 					total = second + space + third + space + fourth;
 
@@ -151,7 +153,6 @@ void main()
 				return;
 			}
 		cout << string(buf, 0, bytesReceived) << endl;
-		// send(clientSocket, buf, bytesReceived + 1, 0);
 
 	}
 
