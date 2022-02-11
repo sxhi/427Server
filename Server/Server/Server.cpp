@@ -116,9 +116,13 @@ void main()
 	// While loop: accept and echo message back to client
 	char buf[BUFFER];
 	FILE output;
-	string first, seocnd, third, fourth, full;
+	string first, second, third, fourth, fifth, full, space = "   ";
+	stringstream in, out, back;
+	List eList;
+	int idnum = 1;
+	bool loop_control = true;
 
-	while (true) {
+	while (loop_control) {
 		ZeroMemory(buf, BUFFER);
 
 		// Wait for client to send data
@@ -130,6 +134,30 @@ void main()
 		if (bytesReceived == 0) {
 			cout << "Client Disconnected" << endl;
 			break;
+		}
+		string clientIn = string(buf, 0, bytesReceived);
+		in.str(clientIn);
+		in >> first >> second >> third >> fourth >> fifth;
+		if (first == "add") {
+			cout << "200 OK" << endl;
+			eList.EmployeeList->id = idnum;
+			eList.EmployeeList->FirstName = second;
+			eList.EmployeeList->LastName = third;
+			eList.EmployeeList->PhoneNum = fourth;
+		}
+		else if (first == "delete") {
+		
+		}
+		else if (first == "list") {
+
+		}
+		else if (first == "shutdown") {
+			loop_control = false;
+			return; 
+		}
+		else if (first == "quit") {
+			loop_control = false;
+			return;
 		}
 		cout << string(buf, 0, bytesReceived) << endl;
 		send(clientSocket, buf, bytesReceived + 1, 0);
