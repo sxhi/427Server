@@ -3,12 +3,9 @@
 #include <string>
 #include <stdio.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
 #include <vector>
-// #include <WS2tcpip.h>
-// #pragma comment (lib, "ws2_32.lib")
+#include <WS2tcpip.h>
+#pragma comment (lib, "ws2_32.lib")
 #define SERVER_PORT 8645
 using namespace std;
 
@@ -31,8 +28,8 @@ struct Employee {
 
 struct List {
 
-	struct Employee EmployeeList[100];
-	int m_size;
+	Employee EmployeeList[100];
+	int m_size = sizeof(EmployeeList);
 };
 
 void add(List *n) 
@@ -42,15 +39,17 @@ void add(List *n)
 
 }
 
-int delete (List* n)
+void remove (List* n)
 {
 
 };
 
 void list(List* n)
 {
-	for (int i = 0; i < sizeof(list); i++) {
-		cout << n.id[i] << "\t\t" << n.FirstName[i] << "\t\t" << n.LastName[i] << "\t\t" << n.PhoneNum[i] << "\t\t" << endl;
+	int countr = 0;
+	countr = sizeof(n->EmployeeList);
+	for (int i = 0; i < countr; i++) {
+		cout << n->EmployeeList[i].id << "\t\t" << n->EmployeeList[i].FirstName << "\t\t" << n->EmployeeList[i].LastName << "\t\t" << n->EmployeeList[i].PhoneNum << "\t\t" << endl;
 	}
 }
 
@@ -58,7 +57,7 @@ void main()
 {
 	// Initilize winsock
 	
-	/* WSADATA WsData;
+    WSADATA WsData;
 	WORD ver = MAKEWORD(2, 2);
 	int wsOk = WSAStartup(ver, &WsData);
 
@@ -66,14 +65,10 @@ void main()
 		cerr << "Cant initialize winsock!" << endl;
 		return;
 	}
-	*/
-
-
 
 	// Create a socket
 	struct sockaddr_in sin;
 
-	bzero((char * )
 	SOCKET listening = socket(AF_INET, SOCK_STREAM, 0);
 	if (listening == INVALID_SOCKET) {
 		cerr << "Cant create a socket!" << endl;
