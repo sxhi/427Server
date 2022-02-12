@@ -74,7 +74,7 @@ void main()
 	fstream file; // Output File
 	ofstream temp; // Temp output file
 	ifstream save; // Inputing output file
-	int idnum = 1; // Id#
+	int idnum = 1001; // Id#
 	bool loop_control = true; // Loop Controller
 
 	// While loop: accept and echo message back to client / Functions
@@ -136,32 +136,28 @@ void main()
 		// List Function
 			else if (first == "list") {
 				string line;
-
 				file.open("output.txt");
 				getline(file, line);
 				if (!line.empty()) {
 					string one, two, three, four, total;
 					cout << "200 OK" << endl;
 					send(clientSocket, "200 OK", 7, 0);
-					// file.close();
-					// file.open("output.txt");
+					file.close();
+					file.open("output.txt");
 
 					while (file >> one >> two >> three >> four) {
-						total = second + space + third + space + fourth;
-						file << total;
+						total = one + space + two + space + three + space + four;
+						cout << total << endl;
 						strcpy_s(buf, total.c_str());
-						file << total << endl;
 						send(clientSocket, buf, 50, 0);
 					}		
-					send(clientSocket, "", 1, 0);
+					file.close();
 				}
 				else {
 					cout << "The list is empty!" << endl;
 					send(clientSocket, "The list is empty!", 19, 0);
 					send(clientSocket, "", 1, 0);
 				}
-				file.close();
-				
 			}
 
 		// Shutdown Function
@@ -177,7 +173,6 @@ void main()
 			else {
 				return;
 			}
-		cout << string(buf, 0, bytesReceived) << endl;
 
 	}
 
