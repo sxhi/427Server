@@ -143,7 +143,7 @@ void main()
 				if (!line.empty()) {
 					string one, two, three, four, total;
 					cout << "200 OK!" << endl;
-					send(clientSocket, "200 OK!", 7, 0);
+					send(clientSocket, "200 OK", 7, 0);
 					file.close();
 					file.open("output.txt");
 
@@ -159,8 +159,7 @@ void main()
 				}
 				else {
 					cout << "The list is empty." << endl;
-					send(clientSocket, "The list is empty.", 19, 0);
-					send(clientSocket, "", 1, 0);
+					send(clientSocket, "The list is empty!", 19, 0);
 				}
 			}
 
