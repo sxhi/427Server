@@ -47,6 +47,12 @@ void main() {
 	// Do While loop to send and recieve data
 	char buf[BUFFER];
 	string userInput;
+	cout << "List of Commands:" << endl;
+	cout << "#1: Type 'add' followed by 'first name' 'last name' and 'phone number' to add an employee. " << endl;
+	cout << "#2: Type 'delete' followed by an 'id' to delete an employee." << endl;
+	cout << "#3: Type 'list' to list all employees." << endl;
+	cout << "#4: Type 'shutdown' to shut down server. " << endl;
+	cout << "#5: Type 'quit' to disconnect from server. " << endl;
 
 	do {
 		// Prompt user for text

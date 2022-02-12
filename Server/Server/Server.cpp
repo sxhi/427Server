@@ -110,6 +110,12 @@ void main()
 		// Delete Function
 			else if (first == "delete") {
 				int idcompare = stoi(second); // Create integer out of string
+				
+				if (idcompare > 100) {
+					cout << "403 ID Invalid" << endl;
+					send(clientSocket, "403 ID Invalid", 14, 0);
+					}
+
 				temp.open("temp.txt"); // Open a temp file
 				file.open("output.txt"); // Open the writing file
 				while (getline(file, fixed)) {
@@ -130,22 +136,41 @@ void main()
 		// List Function
 			else if (first == "list") {
 				string line;
+
 				file.open("output.txt");
+				getline(file, line);
+				if (!line.empty()) {
+					string one, two, three, four, total;
+					cout << "200 OK" << endl;
+					send(clientSocket, "200 OK", 7, 0);
+					// file.close();
+					// file.open("output.txt");
 
-				while (in >> first >> second >> third >> fourth) {
-					total = second + space + third + space + fourth;
-
-					save.open("output.txt");
-					while (!save.eof()) {
-						getline(save, line);
-						cout << line << endl;
-					}
-					save.close();
+					while (file >> one >> two >> three >> four) {
+						total = second + space + third + space + fourth;
+						file << total;
+						strcpy_s(buf, total.c_str());
+						file << total << endl;
+						send(clientSocket, buf, 50, 0);
+					}		
+					send(clientSocket, "", 1, 0);
 				}
+				else {
+					cout << "The list is empty!" << endl;
+					send(clientSocket, "The list is empty!", 19, 0);
+					send(clientSocket, "", 1, 0);
+				}
+				file.close();
+				
 			}
 
 		// Shutdown Function
 			else if (first == "shutdown") {
+				loop_control = false;
+				return;
+			}
+		// Quit Function
+			else if (first == "quit") {
 				loop_control = false;
 				return;
 			}
