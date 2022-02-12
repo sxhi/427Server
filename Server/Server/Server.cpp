@@ -112,7 +112,7 @@ void main()
 			else if (first == "delete") {
 				int idcompare = stoi(second); // Create integer out of string
 				
-				if (idcompare > 1000 || idcompare < 0) {
+				if (idcompare < 0) {
 					cout << "403 ID Invalid" << endl;
 					send(clientSocket, "403 ID Invalid", 14, 0);
 					}
@@ -152,8 +152,11 @@ void main()
 						total = one + space + two + space + three + space + four + "!";
 						cout << total << endl;
 						strcpy_s(buf, total.c_str());
-						send(clientSocket, buf, 50, 0);
-					}		
+						/* send(clientSocket, buf, 50, 0); This is not sending the output back to client for some reason,
+						the client needs more recv. This is causing output errors on the client side. A send() function needs to be used in order
+						to get the correct output.
+						*/
+					}
 					file.close();
 				}
 				else {
@@ -170,6 +173,9 @@ void main()
 		// Quit Function
 			else if (first == "quit") {
 				loop_control = false;
+				closesocket(clientSocket); // Close current socket
+				bind(listening, (sockaddr*)&hint, sizeof(hint)); // Tell socket to bind again
+				listen(listening, SOMAXCONN); // Listen for socket
 				return;
 			}
 			else {
