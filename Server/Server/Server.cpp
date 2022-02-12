@@ -155,7 +155,6 @@ void main()
 						send(clientSocket, buf, 50, 0);
 					}		
 					file.close();
-					send(clientSocket, "", 1, 0);
 				}
 				else {
 					cout << "The list is empty." << endl;
