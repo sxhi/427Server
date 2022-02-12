@@ -67,6 +67,11 @@ void main() {
 				// Wait for response
 				ZeroMemory(buf, BUFFER);
 				int bytesReceived = recv(sock, buf, BUFFER, 0);
+
+				if (bytesReceived > 0) {
+					// Echo response to console
+					cout << "SERVER> " << string(buf, 0, bytesReceived) << endl;
+				}
 				if (bytesReceived > 0) {
 					// Echo response to console
 					cout << "SERVER> " << string(buf, 0, bytesReceived) << endl;

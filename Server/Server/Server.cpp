@@ -139,25 +139,27 @@ void main()
 				string line;
 				file.open("output.txt");
 				getline(file, line);
+			
 				if (!line.empty()) {
 					string one, two, three, four, total;
-					cout << "200 OK" << endl;
-					send(clientSocket, "200 OK", 7, 0);
+					cout << "200 OK!" << endl;
+					send(clientSocket, "200 OK!", 7, 0);
 					file.close();
 					file.open("output.txt");
 
+
 					while (file >> one >> two >> three >> four) {
-						total = one + space + two + space + three + space + four;
+						total = one + space + two + space + three + space + four + "!";
 						cout << total << endl;
-						
 						strcpy_s(buf, total.c_str());
-						// send(clientSocket, buf, 50, 0);
+						send(clientSocket, buf, 50, 0);
 					}		
 					file.close();
+					send(clientSocket, "", 1, 0);
 				}
 				else {
-					cout << "The list is empty!" << endl;
-					send(clientSocket, "The list is empty!", 19, 0);
+					cout << "The list is empty." << endl;
+					send(clientSocket, "The list is empty.", 19, 0);
 					send(clientSocket, "", 1, 0);
 				}
 			}
