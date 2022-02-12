@@ -74,7 +74,7 @@ void main()
 	fstream file; // Output File
 	ofstream temp; // Temp output file
 	ifstream save; // Inputing output file
-	int idnum = 1001; // Id#
+	int idnum = 1000; // Id#
 	bool loop_control = true; // Loop Controller
 
 	// While loop: accept and echo message back to client / Functions
@@ -100,9 +100,10 @@ void main()
 
 		// Add Function
 			if (first == "add") {
+				idnum++;
 				file.open("output.txt", std::ios_base::app);
 				file << idnum << space << second << space << third << space << fourth << space << fifth << endl;
-				idnum++;
+				cout << "The new Record ID is " << idnum << endl;
 				send(clientSocket, "200 OK", 7, 0);
 				file.close();
 			}
@@ -111,7 +112,7 @@ void main()
 			else if (first == "delete") {
 				int idcompare = stoi(second); // Create integer out of string
 				
-				if (idcompare > 100) {
+				if (idcompare > 1000 || idcompare < 0) {
 					cout << "403 ID Invalid" << endl;
 					send(clientSocket, "403 ID Invalid", 14, 0);
 					}
@@ -148,8 +149,9 @@ void main()
 					while (file >> one >> two >> three >> four) {
 						total = one + space + two + space + three + space + four;
 						cout << total << endl;
+						
 						strcpy_s(buf, total.c_str());
-						send(clientSocket, buf, 50, 0);
+						// send(clientSocket, buf, 50, 0);
 					}		
 					file.close();
 				}
