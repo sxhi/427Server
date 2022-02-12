@@ -147,7 +147,6 @@ void main()
 					file.close();
 					file.open("output.txt");
 
-
 					while (file >> one >> two >> three >> four) {
 						total = one + space + two + space + three + space + four + "!";
 						cout << total << endl;
